@@ -4,13 +4,13 @@
 <<	/Type /Annot
 	/Subtype /RichMedia
 	/AP << /N 10 0 R >>		% Appearance dictionary
-	/BS						% Border Style dictionary
+	/BS				% Border Style dictionary
 	<<	/Type /Border
-		/W 0				% Width 0
+		/W 0			% Width 0
 	>>
-	/F 68					% Flags
-	/NM (PRC_Annotation)	% Annotation name
-	/P 5 0 R				% Parent
+	/F 68				% Flags
+	/NM (PRC_Annotation)		% Annotation name
+	/P 5 0 R			% Parent
 	/Rect [ 50 50 742 500 ]
 	/RichMediaContent 12 0 R
 	/RichMediaSettings 19 0 R
@@ -90,11 +90,11 @@ endobj
 18 0 obj	% 3DView dictionary
 <<	/Type /3DView
 	/IN (12a345b6-7c89-0d1e-fa2b-cde3f45a6b78)	% internal name
-	/XN (Default View)							% external name
-	/MS /M										% Use C2W entry for transform matrix
-	/NR true									% node return
+	/XN (Default View)				% external name
+	/MS /M						% Use C2W entry for transform matrix
+	/NR true					% node return
 	/RM << /Type /3DRenderMode /Subtype / SolidOutline >>
-	/P << /Subtype /O >>						% orthographic projection
+	/P << /Subtype /O >>				% orthographic projection
 	/BG <</Subtype /SC /C [ 1 1 1 ] >>		% white background 
 	/C2W [ -1.0 0.0 0.0 0.0 0.0 1.0 0.0 1.0 0.0 0.0 -10.0 0 ]
 	<<	/Instance 2 0 R
@@ -109,9 +109,9 @@ endobj
 	<<	/Type /RichMediaActivation
 		/Condition /WhenClicked
 		/Configuration 13 0 R	% Ref to element in Config array
-		/View 18 0 R			% Ref to element in Views array
+		/View 18 0 R		% Ref to element in Views array
 		/Presentation 20 0 R	% Ref to element in Presentation array
-		/Scripts				% Ref to JavaScript filespec
+		/Scripts		% Ref to JavaScript filespec
 		[22 0 R]
 	>>
 	/Deactivation
