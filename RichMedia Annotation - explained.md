@@ -8,13 +8,13 @@ This document provides background to the dictionaries and other entries that def
 
 Section 7.5.2, "File header" of ISO 32000-2 specifies that a conforming document "shall identify the version (either in the header or as the value of the Version entry in the document's catalog dictionary) as 2.0."
 
-The recommended practice is to identify the version in the file header using the string **%PDF--2.0**.
+The recommended practice is to identify the version in the file header using the string **%PDF-2.0**.
 
 # RichMedia Annotations
 
 ## Embedded file streams
 
-The recommended practice is to store the PRC and JavaScript data as embedded file streams (ISO 32000-2, 7.11.4). This ensures that the PDF file is self-contained and can be shared as a single file.
+The recommended practice is to store the PRC and JavaScript data as embedded file streams (ISO 32000-2, 7.11.4). This ensures that the PDF file is self-contained and can be shared as a single file. ISO 32000-2:2020 requires that the Subtype key (a PDF name object) is a valid MIME media type as defined in Internet RFC 2046, with the provision that characters not permitted in names shall use the 2-character hexadecimal code format.
 
 It is recommended that embedded file streams include the following entries:
 
@@ -22,8 +22,8 @@ It is recommended that embedded file streams include the following entries:
     Required for all stream dictionaries.
 
 -   **Subtype**
-    PRC embedded file streams should include a **Subtype** entry of *model/prc*
-    U3D embedded file streams should include a **Subtype** entry of *model/u3d*
+    PRC embedded file streams should include a **Subtype** entry of *model/prc* encoded as a PDF name (not string)
+    U3D embedded file streams should include a **Subtype** entry of *model/u3d* encoded as a PDF name (not string)
     JavaScript embedded file streams should include a **Subtype** entry of *text/javascript*
 
 ![](./images/PDF/FileSpecificationDictionary.png)
@@ -34,7 +34,7 @@ Figure 1 - Embedded file streams
 ```
 25 0 obj	% embedded file stream for 3D PRC data
 <<	/Type /EmbeddedFile		% 3D.prc
-	/Subtype (model/prc)
+	/Subtype /model#2Fprc           % required to be a PDF name - value is "model/prc"
 	/Length ...
 >>
 stream
@@ -44,7 +44,7 @@ endobj
 
 24 0 obj	% embedded file stream for JavaScript
 <<	/Type /EmbeddedFile		% script.js
-	/Subtype (text/javascript)
+	/Subtype /text#2Fjavascript     % required to be a PDF name - value is "text/javascript"
 	/Length ...
 	/Filter ...
 >>
@@ -60,7 +60,7 @@ The recommended practice is to create file specification dictionaries (ISO 32000
 It is recommended that file specification dictionaries include the following entries:
 
 -   **EF**
-    Required for all file specification dictionaries. Must be an indirect reference to an embedded file stream.
+    Required for all file specification dictionaries. Must be an indirect reference to an embedded file stream. Both **F** and **UF** should be present as recommended in ISO 32000-2:2020 Table 43, **EF** key description.
 
 -   **F**
     It is recommended that the **F** entry is the same as the filename of the embedded file stream.
@@ -81,7 +81,7 @@ Figure 2 - File specification dictionary
 <<	/Type /FileSpec
 	/F (3d.prc)
 	/UF (3d.prc)
-	/EF  /F 25 0 R >>
+	/EF << /F 25 0 R /UF 25 0 R >>
 >>
 endobj
 
@@ -89,7 +89,7 @@ endobj
 <<	/Type /FileSpec
 	/F (script.js)
 	/UF (script.js)
-	/EF << /F 24 0 R >>
+	/EF << /F 24 0 R /UF 24 0 R >>
 >>
 endobj
 ```
@@ -134,15 +134,11 @@ endobj
 
 ## RichMediaActivation dictionary
 
-![](images/PDF/RichMediaActivationDictionary.png)
-
-Figure  5- RichMediaActivation dictionary
+See below as inline dictionary in RichMediaSettings.
 
 ## RichMediaDeactivation dictionary
 
-![](images/PDF/RichMediaDeactivationDictionary.png)
-
-Figure 6 - RichMediaDeactivation dictionary
+See below as inline dictionary in RichMediaSettings.
 
 ## RichMediaSettings dictionary
 
@@ -156,16 +152,16 @@ Figure 7 - RichMediaSettings dictionary
 <<	/Type /RichMediaSettings
 	/Activation
 	<<	/Type /RichMediaActivation
-		/Condition /WhenClicked
+		/Condition /XA          % explicit action
 		/Configuration 13 0 R	% Ref to element in Config array
-		/View 18 0 R			% Ref to element in Views array
+		/Views [ 18 0 R ]       % Ref to 3D view dict element in Views array
 		/Presentation 20 0 R	% Ref to element in Presentation array
-		/Scripts				% Ref to JavaScript filespec
-		[22 0 R]
+		/Scripts [ 22 0 R ]     % NOT IN ISO 32000-2:2020!! Ref to JavaScript filespec
+		
 	>>
 	/Deactivation
 	<<	/Type /RichMediaDeactivation
-		/Condition /XD
+		/Condition /XD          % explicit deactivation
 	>>
 >>
 endobj
@@ -181,27 +177,15 @@ Figure 8 - 3DView dictionary
 ```
 18 0 obj	% 3DView dictionary
 <<	/Type /3DView
-	/IN (12a345b6-7c89-0d1e-fa2b-cde3f45a6b78)	% internal name
-	/XN (Default View) 							% external name
-	/MS /M										% Use C2W entry for transform matrix
-	/NR true									% node return
-	/RM << /Type /3DRenderMode /Subtype / SolidOutline >>
-	/P << /Subtype /0 >>						% orthographic projection
-	/BG <</Subtype /SC /C [ 1 1 1 ] >>			% white background
+	/IN (12a345b6-7c89-0d1e-fa2b-cde3f45a6b78)      % internal name
+	/XN (Default View)                              % external name
+	/MS /M                                          % Use C2W entry for 12 element transform matrix
 	/C2W [ -1.0 0.0 0.0 0.0 0.0 1.0 0.0 1.0 0.0 0.0 -10.0 0 ]
-	<<	/Instance 2 0 R
-		/Data (...State Data for 3D Instance...)
-	>>
+	/NR true                                        % node return
+	/RM << /Type /3DRenderMode /Subtype / SolidOutline >> % render mode dictionary: black (default AC key) solid outline
+	/P << /Subtype /O >>                            % Projection dictionary: orthographic projection
+	/BG << /Type /3DBG /Subtype /SC /C [ 1 1 1 ] >> % white background
 >>
-endobj
-```
-
-## View array
-
-#### Example
-```
-17 0 obj	% Views array
-	[18 0 R]
 endobj
 ```
 
@@ -216,7 +200,7 @@ Figure 9 - RichMediaInstance dictionary
 16 0 obj	% RichMediaInstance dictionary
 <<	/Type /RichMediaInstance
 	/Subtype /3D
-	/Asset 23 0 R	% Reference to PRC filespec
+	/Asset 23 0 R	 % Reference to PRC filespec, also referenced from Assets name tree in RichMediaContent
 >>
 endobj
 ```
@@ -226,10 +210,8 @@ endobj
 #### Example
 ```
 15 0 obj	% RichMediaInstance array
-	[16 0 0 obj	% Ref to RichMediaInstance dictionary
-    ]
+    [ 16 0 R ]  % Ref to RichMediaInstance dictionary
 endobj
-
 ```
 
 ## RichMediaConfiguration dictionary
