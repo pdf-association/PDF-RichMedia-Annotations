@@ -1,20 +1,18 @@
 # Introduction
 
-This document provides background to the dictionaries and other entries that define 3D content in PDF 2.0. It is written for software developers want to create PDF 2.0 files with 3D RichMedia Annotations.
+This document provides background to the dictionaries and other entries that define RichMedia content in PDF 2.0, including 3D. It is written for software developers wanting to create PDF 2.0 files with RichMedia Annotations.
 
 # PDF 2.0
 
 ## PDF Version
 
-Section 7.5.2, "File header" of ISO 32000-2 specifies that a conforming document "shall identify the version (either in the header or as the value of the Version entry in the document's catalog dictionary) as 2.0."
-
-The recommended practice is to identify the version in the file header using the string **%PDF-2.0**.
+Section 7.5.2, "File header" of ISO 32000-2 specifies that a conforming document "shall identify the version (either in the header or as the value of the **Version** entry in the document's catalog dictionary) as 2.0". The recommended practice is to identify the version in the file header using the string `%PDF-2.0`.
 
 # RichMedia Annotations
 
 ## Embedded file streams
 
-The recommended practice is to store the PRC and JavaScript data as embedded file streams (ISO 32000-2, 7.11.4). This ensures that the PDF file is self-contained and can be shared as a single file. ISO 32000-2:2020 requires that the Subtype key (a PDF name object) is a valid MIME media type as defined in Internet RFC 2046, with the provision that characters not permitted in names shall use the 2-character hexadecimal code format.
+The recommended practice is to store the RichMedia assets such as PRC and JavaScript data as embedded file streams (ISO 32000-2, 7.11.4). This ensures that the PDF file is self-contained and can be shared as a single file. ISO 32000-2:2020 requires that the `Subtype` key (a PDF name object) is a valid MIME media type as defined in Internet RFC 2046, with the provision that characters not permitted in names shall use the 2-character hexadecimal code format.
 
 It is recommended that embedded file streams include the following entries:
 
@@ -22,15 +20,11 @@ It is recommended that embedded file streams include the following entries:
     Required for all stream dictionaries.
 
 -   **Subtype**
-    PRC embedded file streams should include a **Subtype** entry of *model/prc* encoded as a PDF name (not string)
-    U3D embedded file streams should include a **Subtype** entry of *model/u3d* encoded as a PDF name (not string)
-    JavaScript embedded file streams should include a **Subtype** entry of *text/javascript*
+    PRC embedded file streams should include a `Subtype` entry of *model/prc* encoded as a PDF name  where `/` becomes `#2F` (not a PDF string)
+    U3D embedded file streams should include a `Subtype` entry of *model/u3d* encoded as a PDF name  where `/` becomes `#2F` (not a PDF string)
+    JavaScript embedded file streams should include a `Subtype` entry of *text/javascript* encoded as a PDF name where `/` becomes `#2F` (not a PDF string)
 
-![](./images/PDF/FileSpecificationDictionary.png)
-
-Figure 1 - Embedded file streams
-
-#### Example
+### Example
 ```
 25 0 obj	% embedded file stream for 3D PRC data
 <<	/Type /EmbeddedFile		% 3D.prc
@@ -55,27 +49,23 @@ endobj
 ```
 ## File specification dictionary
 
-The recommended practice is to create file specification dictionaries (ISO 32000-2, 7.11.3) for all the embedded file streams associated with the 3D RichMedia annotation (PRC and JavaScript files).
+The recommended practice is to create file specification dictionaries (ISO 32000-2, 7.11.3) for all the embedded file streams associated with the 3D RichMedia annotation (e.g. PRC and JavaScript files).
 
 It is recommended that file specification dictionaries include the following entries:
 
 -   **EF**
-    Required for all file specification dictionaries. Must be an indirect reference to an embedded file stream. Both **F** and **UF** should be present as recommended in ISO 32000-2:2020 Table 43, **EF** key description.
+    Required for all file specification dictionaries. Must be an indirect reference to an embedded file stream. Both `F` and `UF` should be present as recommended in ISO 32000-2:2020 Table 43, `EF` key description.
 
 -   **F**
-    It is recommended that the **F** entry is the same as the filename of the embedded file stream.
+    It is recommended that the `F` entry is the same as the filename of the embedded file stream.
 
 -   **UF**
-    It is recommended that the **UF** entry contains a Unicode version of the filename of the embedded file stead (**F** key).
+    It is recommended that the `UF` entry contains a Unicode version of the filename of the embedded file (`F` key).
 
 -   **Type**
-    Required by the inclusion of the **EF** key. Must be "*FileSpec*".
+    Required by the inclusion of the `EF` key. Must be "*FileSpec*".
 
-![](images/PDF/FileSpecificationDictionary.png)
-
-Figure 2 - File specification dictionary
-
-#### Example
+### Example
 ```
 23 0 obj	% PRC file specification dictionary
 <<	/Type /FileSpec
@@ -97,11 +87,7 @@ endobj
 
 The recommended practice is to create a name tree (ISO 32000-2, 7.11.3) for the PRC and JavaScript file specification dictionaries.
 
-![](images/PDF/AssetsNameTree.png)
-
-Figure 3 - Assets name tree
-
-#### Example
+### Example
 ```
 21 0 obj	% RichMediaAssets name tree
 <<	/Names
@@ -115,10 +101,6 @@ endobj
 ## RichMediaPresentation dictionary
 
 The recommended practice is to create a RichMediaPresentation dictionary (ISO 32000-2, 13.7.2.2.5) to specify how the user interface should be presented.
-
-![](images/PDF/RichMediaPresentationDictionary.png)
-
-Figure 4 - RichMediaPresentation dictionary
 
 #### Example
 ```
@@ -142,11 +124,7 @@ See below as inline dictionary in RichMediaSettings.
 
 ## RichMediaSettings dictionary
 
-![](images/PDF/RichMediaSettingsDictionary.png)
-
-Figure 7 - RichMediaSettings dictionary
-
-#### Example
+### Example
 ```
 19 0 obj	% RichMediaSettings Dictionary
 <<	/Type /RichMediaSettings
@@ -169,11 +147,7 @@ endobj
 
 ## View dictionary
 
-![](images/PDF/3DViewDictionary.png)
-
-Figure 8 - 3DView dictionary
-
-#### Example
+### Example
 ```
 18 0 obj	% 3DView dictionary
 <<	/Type /3DView
@@ -191,11 +165,7 @@ endobj
 
 ## RichMediaInstance dictionary
 
-![](images/PDF/RichMediaInstanceDictionary.png)
-
-Figure 9 - RichMediaInstance dictionary
-
-#### Example
+### Example
 ```
 16 0 obj	% RichMediaInstance dictionary
 <<	/Type /RichMediaInstance
@@ -207,7 +177,7 @@ endobj
 
 ## RichMediaInstance array
 
-#### Example
+### Example
 ```
 15 0 obj	% RichMediaInstance array
     [ 16 0 R ]  % Ref to RichMediaInstance dictionary
@@ -216,37 +186,20 @@ endobj
 
 ## RichMediaConfiguration dictionary
 
-![](images/PDF/RichMediaConfigurationDictionary.png)
-
-Figure 10 - RichMediaConfiguration dictionary
-#### Example
+### Example
 ```
 14 0 obj	% RichMediaContent dictionary
 <<	/Type /RichMediaContent
-	/Configurations 13 0 R
+	/Configurations [ 14 0 R ] % RichMediaConfiguration array
 	/Views 17 0 R
 	/Assets 21 0 R
 >>
 endobj
 ```
 
-## RichMediaConfiguration array
-
-#### Example
-```
-13 0 obj % RichMediaConfiguration array
-	[14 0 R
-	]
-endobj
-```
-
 ## RichMediaContent dictionary
 
-![](images/PDF/RichMediaContentDictionary.png)
-
-Figure 11 - RichMediaContent dictionary
-
-#### Example
+### Example
 ```
 12 0 obj	% RichMediaContent dictionary
 <<	/Type /RichMediaContent
@@ -258,7 +211,7 @@ endobj
 ```
 ## Poster image stream
 
-#### Example
+### Example
 ```
 11 0 obj	% Poster image
 <<	/Length ...
@@ -275,11 +228,7 @@ endobj
 ```
 ## Appearance dictionary
 
-![](images/PDF/AppearanceDictionary.png)
-
-Figure 12 - Appearance dictionary
-
-#### Example
+### Example
 ```
 10 0 obj	% Appearance dictionary
 <<	/Length 39
@@ -287,29 +236,24 @@ Figure 12 - Appearance dictionary
 	/BBox [ 0.0 0.0 692 450 ]
 	/Resources
 	<<	/XObject << /Im0 11 0 R >>
-		/ProcSet [ /PDF /ImageC ]
 		/ExtGState <</GS0 << /Type /ExtGState /ca 1.0 /CA 1.0 >> >>
 	>>
 	/Subtype /Form
 	/Matrix [ 1 0 0 1 0 0 ]
 >>
-stream q
-/GS0 gs
-692 0 0 450 0 0 cm
-/Im0 Do
-Q
+stream 
+  q
+    /GS0 gs
+    692 0 0 450 0 0 cm
+    /Im0 Do
+  Q
 endstream
 endobj
-
 ```
 
 ## RichMedia annotation
 
-![](images/PDF/RichMediaAnnotation.png)
-
-Figure 13 - RichMedia annotation dictionary
-
-#### Example
+### Example
 ```
 9 0 obj	% RichMedia annotation
 <<	/Type /Annot
@@ -327,5 +271,4 @@ Figure 13 - RichMedia annotation dictionary
 	/RichMediaSettings 19 0 R
 >>
 endobj
-
 ```
