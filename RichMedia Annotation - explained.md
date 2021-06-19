@@ -20,15 +20,15 @@ It is recommended that embedded file streams include the following entries:
     Required for all stream dictionaries.
 
 -   **Subtype**
-    PRC embedded file streams should include a `Subtype` entry of *model/prc* encoded as a PDF name  where `/` becomes `#2F` (not a PDF string)
-    U3D embedded file streams should include a `Subtype` entry of *model/u3d* encoded as a PDF name  where `/` becomes `#2F` (not a PDF string)
-    JavaScript embedded file streams should include a `Subtype` entry of *text/javascript* encoded as a PDF name where `/` becomes `#2F` (not a PDF string)
+    - PRC embedded file streams should include a `Subtype` entry of `model#2Fprc` which is *model/prc* encoded as a PDF name where `/` becomes `#2F`
+    - U3D embedded file streams should include a `Subtype` entry of `model#2Fu3d` which is *model/u3d* encoded as a PDF name where `/` becomes `#2F`
+    - JavaScript embedded file streams should include a `Subtype` entry of `text#2Fjavascript` which is *text/javascript* encoded as a PDF name where `/` becomes `#2F`
 
 ### Example
 ```
 25 0 obj	% embedded file stream for 3D PRC data
 <<	/Type /EmbeddedFile		% 3D.prc
-	/Subtype /model#2Fprc           % required to be a PDF name - value is "model/prc"
+	/Subtype /model#2Fprc           % required to be a PDF name - value is "model/prc" encoded as a PDF name
 	/Length ...
 >>
 stream
@@ -38,7 +38,7 @@ endobj
 
 24 0 obj	% embedded file stream for JavaScript
 <<	/Type /EmbeddedFile		% script.js
-	/Subtype /text#2Fjavascript     % required to be a PDF name - value is "text/javascript"
+	/Subtype /text#2Fjavascript     % required to be a PDF name - value is "text/javascript" encoded as a PDF name
 	/Length ...
 	/Filter ...
 >>
@@ -56,14 +56,11 @@ It is recommended that file specification dictionaries include the following ent
 -   **EF**
     Required for all file specification dictionaries. Must be an indirect reference to an embedded file stream. Both `F` and `UF` should be present as recommended in ISO 32000-2:2020 Table 43, `EF` key description.
 
--   **F**
-    It is recommended that the `F` entry is the same as the filename of the embedded file stream.
+-   **F**: it is recommended that the `F` entry is the same as the filename of the embedded file stream.
 
--   **UF**
-    It is recommended that the `UF` entry contains a Unicode version of the filename of the embedded file (`F` key).
+-   **UF**: it is recommended that the `UF` entry contains a Unicode version of the filename of the embedded file (`F` key).
 
--   **Type**
-    Required by the inclusion of the `EF` key. Must be "*FileSpec*".
+-   **Type**: required by the inclusion of the `EF` key. Must be "*FileSpec*".
 
 ### Example
 ```
@@ -114,11 +111,7 @@ The recommended practice is to create a RichMediaPresentation dictionary (ISO 32
 endobj
 ```
 
-## RichMediaActivation dictionary
-
-See below as inline dictionary in RichMediaSettings.
-
-## RichMediaDeactivation dictionary
+## RichMediaActivation and RichMediaDeactivation dictionaries
 
 See below as inline dictionary in RichMediaSettings.
 
@@ -190,7 +183,7 @@ endobj
 ```
 14 0 obj	% RichMediaContent dictionary
 <<	/Type /RichMediaContent
-	/Configurations [ 14 0 R ] % RichMediaConfiguration array
+	/Configurations [ 14 0 R ]     % RichMediaConfiguration array
 	/Views 17 0 R
 	/Assets 21 0 R
 >>
@@ -231,22 +224,22 @@ endobj
 ### Example
 ```
 10 0 obj	% Appearance dictionary
-<<	/Length 39
+<<	/Subtype /Form
+        /Length 39
 	/Type /XObject
 	/BBox [ 0.0 0.0 692 450 ]
 	/Resources
 	<<	/XObject << /Im0 11 0 R >>
-		/ExtGState <</GS0 << /Type /ExtGState /ca 1.0 /CA 1.0 >> >>
+		/ExtGState << /GS0 << /Type /ExtGState /ca 1.0 /CA 1.0 >> >>
 	>>
-	/Subtype /Form
 	/Matrix [ 1 0 0 1 0 0 ]
 >>
 stream 
-  q
-    /GS0 gs
-    692 0 0 450 0 0 cm
-    /Im0 Do
-  Q
+  q % push graphics state
+    /GS0 gs % set graphics state
+    692 0 0 450 0 0 cm % set matrix
+    /Im0 Do % paint the poster image
+  Q % pop graphics state
 endstream
 endobj
 ```
@@ -260,11 +253,11 @@ endobj
 	/Subtype /RichMedia
 	/NM (PRC_Annotation)	% Annotation name
 	/AP << /N 10 0 R >>	% Appearance dictionary
-	/BS	% Border Style dictionary
-	<<	/Type /Border
+	/BS <<	% Border Style dictionary
+		/Type /Border
 		/W 0	% Width 0
 	>>
-	/F 68	% Flags
+	/F 68	        % Flags
 	/P 5 0 R	% Parent
 	/Rect [ 50 50 742 500 ]
 	/RichMediaContent 12 0 R
