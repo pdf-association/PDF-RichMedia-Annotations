@@ -1,5 +1,15 @@
 # PDF-RichMedia-Annotations
 
+![GitHub](https://img.shields.io/github/license/pdf-association/PDF-RichMedia-Annotations)
+&nbsp;&nbsp;&nbsp;
+![PDF support](https://img.shields.io/badge/PDF-2.0-blue)
+&nbsp;&nbsp;&nbsp;
+![LinkedIn](https://img.shields.io/static/v1?style=social&label=LinkedIn&logo=linkedin&message=PDF-Association)
+&nbsp;&nbsp;&nbsp;
+![Twitter Follow](https://img.shields.io/twitter/follow/PDFAssociation?style=social)
+&nbsp;&nbsp;&nbsp;
+![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCJL_M0VH2lm65gvGVarUTKQ?style=social)
+
 Repository for PDF 2.0 RichMedia annotation documentation, based on ISO 32000-2:2020.
 
 ## Directories
