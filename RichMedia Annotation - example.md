@@ -10,9 +10,9 @@
 	>>
 	/F 68				% Flags
 	/NM (PRC_Annotation)		% Annotation name
-	/P 5 0 R			% Parent
+	/P 5 0 R			% Parent page
 	/Rect [ 50 50 742 500 ]
-	/RichMediaContent 12 0 R
+	/RichMediaContent  12 0 R
 	/RichMediaSettings 19 0 R
 >>
 endobj
@@ -22,22 +22,20 @@ endobj
 	/Type /XObject
 	/Subtype /Form
 	/BBox [ 0.0 0.0 692 450 ]
-	/Resources
-	<<	/XObject << /Im0 11 0 R >>
-		/ProcSet [ /PDF /ImageC ]
-		/ExtGState <</GS0 << /Type /ExtGState /ca 1.0 /CA 1.0 >> >>
+	/Resources <<	
+	    /XObject << /Im0 11 0 R >>
 	>>
 	/Matrix [ 1 0 0 1 0 0 ]
 >>
-stream q
-/GS0 gs
-692 0 0 450 0 0 cm
-/Im0 Do
+stream 
+q
+  692 0 0 450 0 0 cm
+  /Im0 Do
 Q
 endstream
 endobj
 
-11 0 obj	% Poster image
+11 0 obj	% Poster image for non-3D aware PDF processors
 <<	/Length ...
 	/Width ...
 	/Height ...
@@ -46,34 +44,24 @@ endobj
 	/Subtype /Image
 >>
 stream
-...Poster Image Stream...
+%...Poster Image Stream...
 endstream
 endobj
 
 12 0 obj	% RichMediaContent dictionary
 <<	/Type /RichMediaContent
-	/Configurations 13 0 R
-	/Views 17 0 R
+	/Configurations [ 14 0 R ] 
+	/Views [18 0 R]
 	/Assets 21 0 R
 >>
 endobj
 
-13 0 obj % RichMediaConfiguration array
-	[14 0 R
-	]
-endobj
-
-14 0 obj	% RichMediaContent dictionary
-<<	/Type /RichMediaContent
-	/Configurations 13 0 R
-	/Views 17 0 R
-	/Assets 21 0 R
+14 0 obj	% RichMediaConfiguration dictionary
+<<	/Type /RichMediaConfiguration
+	/Subtype /3D
+	/Name (Default PRC configuration)
+	/Instances [16 0 R]
 >>
-endobj
-
-15 0 obj	% RichMediaInstance array
-	[16 0 0 obj	% Ref to RichMediaInstance dictionary
-    ]
 endobj
 
 16 0 obj	% RichMediaInstance dictionary
@@ -81,10 +69,6 @@ endobj
 	/Subtype /3D
 	/Asset 23 0 R	% Reference to PRC filespec
 >>
-endobj
-
-17 0 obj	% Views array
-	[18 0 R]
 endobj
 
 18 0 obj	% 3DView dictionary
@@ -111,8 +95,7 @@ endobj
 		/Configuration 13 0 R	% Ref to element in Config array
 		/View 18 0 R		% Ref to element in Views array
 		/Presentation 20 0 R	% Ref to element in Presentation array
-		/Scripts		% Ref to JavaScript filespec
-		[22 0 R]
+		/Scripts [22 0 R]	% Ref to JavaScript filespec	
 	>>
 	/Deactivation
 	<<	/Type /RichMediaDeactivation
@@ -138,7 +121,7 @@ endobj
 >>
 endobj
 
-22 0 obj	% JavaScript File spec dictionary
+22 0 obj	% ECMAScript File spec dictionary
 <<	/Type /FileSpec
 	/F (script.js)
 	/UF (script.js)
@@ -148,15 +131,15 @@ endobj
 
 23 0 obj	% PRC file specification dictionary
 <<	/Type /FileSpec
-	/F (3d.prc)
+	/F  (3d.prc)
 	/UF (3d.prc)
 	/EF  /F 25 0 R >>
 >>
 endobj
 
-24 0 obj	% embedded file stream for JavaScript
+24 0 obj % embedded file stream for ECMAScript
 <<	/Type /EmbeddedFile		% script.js
-	/Subtype (text/javascript)
+	/Subtype /text#2Fjavascript	% Registered MIME media type for ECMAScript
 	/Length ...
 	/Filter ...
 >>
@@ -168,8 +151,9 @@ endobj
 
 25 0 obj	% embedded file stream for 3D PRC data
 <<	/Type /EmbeddedFile		% 3D.prc
-	/Subtype (model/prc)
+	/Subtype /model#2Fprc		% Registered MIME media type
 	/Length ...
+	/Filter ...
 >>
 stream
 % Data for 3D.prc ...
