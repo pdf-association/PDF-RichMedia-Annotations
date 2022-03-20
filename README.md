@@ -22,8 +22,8 @@ An interactive HTML format mind map of the PDF 2.0 RichMedia Annotation can be f
 
 ### [RichMedia Annotation - explained](RichMedia%20Annotation%20-%20explained.md)
 
-Deep dive into the PDF 2.0 RichMedia annotation, with a focus on 3D (PRC) support.
+Deep dive into the PDF 2.0 RichMedia annotation, with a focus on 3D (PRC) support, however the same principles apply to U3D, STEP AP 242 (as defined by ISO/DTS 24064) video and audio assets.
 
 ### [RichMedia Annotation - example](RichMedia%20Annotation%20-%20example.md)
 
-A PDF snippet of a RichMedia annotation.
+A raw PDF snippet of a RichMedia annotation.
