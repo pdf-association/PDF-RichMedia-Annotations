@@ -20,9 +20,10 @@ It is recommended that embedded file streams include the following entries:
     Required for all stream dictionaries.
 
 -   **Subtype**
-    - PRC embedded file streams should include a `Subtype` entry of `model#2Fprc` which is *model/prc* encoded as a PDF name where `/` becomes `#2F`
-    - U3D embedded file streams should include a `Subtype` entry of `model#2Fu3d` which is *model/u3d* encoded as a PDF name where `/` becomes `#2F`
-    - JavaScript embedded file streams should include a `Subtype` entry of `text#2Fjavascript` which is *text/javascript* encoded as a PDF name where `/` becomes `#2F`
+    - PRC embedded file streams should include a `Subtype` entry of `model#2Fprc` which is *model/prc* encoded as a PDF name where `/` becomes `#2F` (as [registered with IANA](https://www.iana.org/assignments/media-types/media-types.xhtml#model))
+    - U3D embedded file streams should include a `Subtype` entry of `model#2Fu3d` which is *model/u3d* encoded as a PDF name where `/` becomes `#2F` (as [registered with IANA](https://www.iana.org/assignments/media-types/media-types.xhtml#model))
+    - STEP AP 242 embedded file streams should include a `Subtype` entry of `model#step`, `model#step+xml`, `model#step+zip` or `model#step-xml+zip` (as [registered with IANA](https://www.iana.org/assignments/media-types/media-types.xhtml#model))
+    - JavaScript embedded file streams should include a `Subtype` entry of `text#2Fjavascript` which is *text/javascript* encoded as a PDF name where `/` becomes `#2F` (as [registered with IANA](https://www.iana.org/assignments/media-types/media-types.xhtml#text))
 
 ### Example
 ```
@@ -58,7 +59,7 @@ It is recommended that file specification dictionaries include the following ent
 
 -   **F**: it is recommended that the `F` entry is the same as the filename of the embedded file stream.
 
--   **UF**: it is recommended that the `UF` entry contains a Unicode version of the filename of the embedded file (`F` key).
+-   **UF**: it is recommended that the `UF` entry contains a Unicode version of the filename of the embedded file (`F` key). For simple ASCII filenames, this can be the same object as for the `F' key.
 
 -   **Type**: required by the inclusion of the `EF` key. Must be "*FileSpec*".
 
@@ -111,11 +112,11 @@ The recommended practice is to create a RichMediaPresentation dictionary (ISO 32
 endobj
 ```
 
-## RichMediaActivation and RichMediaDeactivation dictionaries
-
-See below as inline dictionary in RichMediaSettings.
-
 ## RichMediaSettings dictionary
+
+This dictionary includes the `Activation` and `Deactivation` dictionaries.
+
+The `Scripts` key was accidentally omitted from Table 335 in ISO 32000-2:2020 and has since been rectified in the [PDF 2.0 errata](- see https://pdf-issues.pdfa.org/32000-2-2020/clause13.html#Table335).
 
 ### Example
 ```
@@ -127,8 +128,7 @@ See below as inline dictionary in RichMediaSettings.
 		/Configuration 13 0 R	% Ref to element in Config array
 		/Views [ 18 0 R ]       % Ref to 3D view dict element in Views array
 		/Presentation 20 0 R	% Ref to element in Presentation array
-		/Scripts [ 22 0 R ]     % NOT IN ISO 32000-2:2020!! Ref to JavaScript filespec
-		
+		/Scripts [ 22 0 R ]     % Reference to JavaScript filespec. Corrected in errata 
 	>>
 	/Deactivation
 	<<	/Type /RichMediaDeactivation
@@ -215,7 +215,7 @@ endobj
 	/Subtype /Image
 >>
 stream
-...Poster Image Stream...
+%...Poster Image Stream...
 endstream
 endobj
 ```
