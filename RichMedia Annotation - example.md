@@ -115,13 +115,14 @@ endobj
 
 21 0 obj	% RichMediaAssets name tree
 <<	/Names
-	[ (3d.prc) 23 0 R
+	[ 
 	  (script.js) 22 0 R
+	  (3d.prc) 23 0 R
 	]
 >>
 endobj
 
-22 0 obj	% ECMAScript File spec dictionary
+22 0 obj	% File spec dictionary for some JavaScript
 <<	/Type /FileSpec
 	/F (script.js)
 	/UF (script.js)
@@ -129,17 +130,17 @@ endobj
 >>
 endobj
 
-23 0 obj	% PRC file specification dictionary
+23 0 obj	% PRC file specification dictionary for the PRC 3D model
 <<	/Type /FileSpec
 	/F  (3d.prc)
 	/UF (3d.prc)
-	/EF  /F 25 0 R >>
+	/EF << /F 25 0 R >>
 >>
 endobj
 
 24 0 obj % embedded file stream for ECMAScript
 <<	/Type /EmbeddedFile		% script.js
-	/Subtype /text#2Fjavascript	% Registered MIME media type for ECMAScript
+	/Subtype /text#2Fjavascript	% Registered MIME media type for ECMAScript (optional)
 	/Length ...
 	/Filter ...
 >>
@@ -151,7 +152,7 @@ endobj
 
 25 0 obj	% embedded file stream for 3D PRC data
 <<	/Type /EmbeddedFile		% 3D.prc
-	/Subtype /model#2Fprc		% Registered MIME media type
+	/Subtype /model#2Fprc		% Registered MIME media type (optional)
 	/Length ...
 	/Filter ...
 >>
