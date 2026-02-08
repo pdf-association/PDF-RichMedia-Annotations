@@ -1,0 +1,42 @@
+= Extending PDF Optional Content mechanisms to RichMedia
+PDF Association RichMedia Technical Working Group
+:toc:
+
+== Rationale
+PDF already has a mechanism for toggling the visibility of individual 3D nodes as part of its view mechanism via the NA entry in 3D views (Table 315 of ISO 32000-2), but making it compatible with the Optional Content mechanism could unlock user and author control of Node visibility that may be helpful for moving next generation 3D PDFs away from the use of EcmaScript.
+
+The need is less for toggling the _visibility_ of 3D nodes but rather toggling the highlighting of such nodes.
+
+== File Format Changes
+
+In clause 13.7.2.3.4: RichMediaInstance dictionary
+
+To Table 343 add the following row:
+
+|===
+| Key | Type  | Value
+
+| OC 
+| name tree 
+| (Optional) A name tree that maps names of Optional Content Groups to names of optional elements of this RichMediaInstance. A detailed description of how optional elements of RichMediaInstances are specified can be found after this table.Default value: an empty name tree.  |
+|===
+
+Add the following paragraphs to clause 13.7.2.3.4 after table 343:
+
+The optional element values associated with the OC name tree may be either an array of strings or just a single string.  For 3D instances,  the optional elements are 3D Node names as discussed in 13.6.4.7 (3D Node Dictionaries).
+
+To indicate that it is the 3D node's highlighting that is be toggled; the optional content group dictionary's Intent value shall contain a value of *pdfa:3dHighlight*, as per the Intent entry of Table 96 of clause 8.11.2.1. 
+  
+== Processor Requirements
+
+Richmedia Optional Content and 3D Views with NA/NR entries may be used together provided that the 3D View does not make Visible any 3D Node turned OFF via Optional Content Controls.
+
+Note: Highlighting of non-visible 3D nodes is allowed.
+
+Unrecognized optional element names may be ignored.
+
+How these optional elements of Audio or Video RichMedia may be represented during playback for toggling on or off is left to the PDF Processor as an implementation-specific detail. 
+
+Note: For Audio or Video Richmedia, there is currently no agreed-upon map of names to optional audio or video data elements. Implementers are free to create their own using their own 2nd class name for the Optional Content Group's Intent s as described in Annex E.2.
+
+Projection Annotations with OC entries can be considered RichMedia Optional Content, or put another way: RichMedia  Optional Content is a small extension of what a PDF Processor would need to build out to properly support OC entries (common to all annotations) in Projection Annotations.

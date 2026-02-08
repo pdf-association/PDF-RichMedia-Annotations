@@ -1,0 +1,39 @@
+= Extending PDF Additional Action mechanisms to RichMedia
+PDF Association RichMedia Technical Working Group
+:toc:
+
+== Rationale
+
+A mechanism to map mouse clicks on the RichMedia annotation to 3D Node-specific PDF Actions can potentially allow a user to bring up or dimiss or otherwise interact with contextual information via appropriate Actions such as Set-OCG-state Actions or Go-To-3D-View Actions, without requiring an EcmaScript engine to provide such functionality.
+
+== File Format Changes
+
+In clause 13.7.2.1, add the following row to Table 331:
+|===
+| Key | Type  | Value
+
+| AA 
+| dictionary 
+| (Optional) An additional-actions dictionary defining the annotation’s behaviour in response to various trigger events (see 12.6.3, "Trigger events"). Only the mouse-button related Trigger events D and U shall be applicable to RichMedia Annotations, and only while the RichMedia annotation is activated.
+|===
+
+In clause 12.6.4, add the following subclause:
+
+12.6.4.19 Rich-Media-3D-Trigger
+
+A Rich-Media-3D-Trigger Action maps a two-dimensional screen coordinate from a mouse button click or release to the nearest 3D node on a three-dimensional vector from the camera through the screen to the nearest 3D node along the vector path. If the node name returned matches an entry in the Hit name tree, then the Action(s) for that node may be triggered.
+
+Not all Action types may be applicable, and while the Actions may be chained via the Next entry, processing ends at the first inapplicable Action dictionary.
+
+.Table XXX — Additional entries specific to a Rich-Media-3D-Trigger action
+|===
+| Key | Type  | Value
+
+|S
+|name
+|(Required) The type of action that this dictionary describes; shall be _3DTrigger_ for a Rich-Media-3D-Trigger action.
+
+|Hit
+|name tree
+|(Required) a mapping of 3D node names as discussed in 13.6.4.7 (3D Node Dictionaries) to Table 196 Action dictionaries. 
+|===
